@@ -1,17 +1,32 @@
 import React from 'react';
 import styled from 'react-emotion';
+import uuidv4 from 'uuid/v4';
+import { withRouter } from 'react-router-dom';
 // Components
 import NoteList from './NoteList';
 import { PlusButton } from './IconButtons';
+import useLocalStorage from '../hooks/useLocalStorage';
 
-function Home() {
+function Home({ history }) {
+    const notes = useLocalStorage('notes');
+
+    const createNote = () => {
+        const id = uuidv4();
+        const newNotes = [...notes, {
+            id,
+            title: '',
+            body: ''
+        }];
+        localStorage.setItem('notes', JSON.stringify(newNotes));
+        history.push(`/notes/${id}`);
+    }
+
     return (
         <>
             <Toolbar>
-                <PlusButton />
+                <PlusButton onClick={createNote}/>
             </Toolbar>
             <HomeStyled>
-                
                 <NoteList />
             </HomeStyled>
         </>
@@ -38,4 +53,4 @@ const Toolbar = styled('header')`
     }
 `;
 
-export default Home;
+export default withRouter(Home);

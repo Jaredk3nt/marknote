@@ -9,10 +9,12 @@ function TextEditor({ note }) {
         <TextEditorStyled>
             <TitleEditor
                 value={title}
+                placeholder={title.length ? '' : 'Title'}
                 onChange={(e) => changeTitle(e.target.value)}
             />
             <BodyEditor
                 value={body}
+                placeholder={body.length ? '' : 'Start writing your notes here...'}
                 onChange={(e) => changeBody(e.target.value)}
             />
         </TextEditorStyled>
@@ -35,7 +37,7 @@ const TitleEditor = styled('input')`
     font-family: ${props => props.theme.fonts.family};
     font-size: 1.2rem;
     font-weight: 600;
-    margin: 0em 18px .5em;
+    margin: 0em 18px 0px;
     padding: 0em 0em .25em;
 
     &:focus {
