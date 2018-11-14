@@ -78,7 +78,7 @@ const BodyEditor = styled('textarea')`
     font-family: ${props => props.theme.fonts.family};
     font-size: .85rem;
     height: 100%;
-    max-height: 80vh;
+    max-height: calc(80vh - 60px);
     width: 100%;
     resize: none;
     padding: 18px;

@@ -21,7 +21,7 @@ function MarkdownRenderer({ note }) {
 const TextEditorStyled = styled('div')`
     display: flex;
     flex-direction: column;
-    padding: 1em 0em 0em;
+    padding: 1em 0em 2em;
     height: 100%;
     overflow: hidden;
 `;
@@ -39,40 +39,85 @@ const Body = styled('div')`
     height: 100%;
     max-height: 80vh;
     width: 100%;
-    padding: 18px;
+    padding: 18px 18px 40px 18px;
     overflow: scroll;
     background-color: white;
+
+    div:first-child {
+        margin-bottom: 30px;
+    }
 
     h1,
     h2,
     h3,
     h4,
     h5,
-    p {
+    p,
+    li {
         color: ${props => props.theme.colors.bg};
         font-family: ${props => props.theme.fonts.sansFamily};
     }
 
     h1 {
         font-size: 1.5rem;
-        margin: .25em 0em;
+        font-weight: 600;
+        margin: .5em 0em .25em 0em;
     }
 
     h2 {
         font-size: 1.4rem;
-        margin: .25em 0em;
+        margin: .5em 0em .25em 0em;
+        font-weight: 400;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        margin: .5em 0em .25em 0em;
+        font-weight: 600;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+        margin: .5em 0em .25em 0em;
+        font-weight: 400;
     }
 
     p {
         font-size: .9rem;
         font-weight: 400;
-        margin: .25em 0em;
+        margin: .45em 0em;
         letter-spacing: .5px;
+        line-height: 1.4;
     }
 
     img {
         width: 100%;
         margin: .5em 0em;
+    }
+
+    ul,
+    ol {
+        padding-left: 18px;
+        margin: .65em 0em;
+    }
+
+    pre {
+        font-family: ${props => props.theme.fonts.family};
+        color: ${props => props.theme.colors.text};
+        background-color: ${props => props.theme.colors.bg};
+        padding: 1em;
+        border-radius: 4px;
+        margin: .5em 0em;
+    }
+
+    code {
+        background-color: ${props => props.theme.colors.bg};
+        font-family: ${props => props.theme.fonts.family};
+        color: ${props => props.theme.colors.text};
+        font-size: .8rem;
+        font-weight: 400;
+        padding: 2px 4px;
+        border-radius: 4px;
     }
 `;
 
