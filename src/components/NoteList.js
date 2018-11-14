@@ -6,15 +6,15 @@ import NotePreview from './NotePreview';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function NoteList() {
-    let notes = useLocalStorage('notes');
+    let [notes,] = useLocalStorage('notes');
+    console.log(notes);
 
     return (
         <NoteListStyled>
             {
                 notes.map(note => (
-                    <li>
+                    <li key={note.id}>
                         <NotePreview
-                            key={note.id}
                             id={note.id}
                             title={note.title}
                             body={note.body}
@@ -22,6 +22,9 @@ function NoteList() {
                     </li>
                 ))
             }
+            { notes.length < 1 && (
+                <h2>No notes here.</h2>
+            ) }
         </NoteListStyled>
     );
 }
@@ -30,6 +33,7 @@ const NoteListStyled = styled('ul')`
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 
     li {
 
@@ -45,6 +49,12 @@ const NoteListStyled = styled('ul')`
                 border-bottom: none;
             }
         }
+    }
+
+    h2 {
+        color: ${props => props.theme.colors.bgLight};
+        font-family: ${props => props.theme.fonts.family};
+        text-align: center;
     }
 `;
 

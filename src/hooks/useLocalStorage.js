@@ -1,23 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function useLocalStorage(key) {
-  let localStorageItem;
-  if (key) {
-    localStorageItem = localStorage[key];
+  const initialValue = localStorage.getItem(key) || '[]';
+  console.log(initialValue);
+  const [item, setValue] = useState(initialValue);
+  const setItem = (item) => {
+    setValue(JSON.stringify(item));
+    localStorage.setItem(key, JSON.stringify(item));
   }
-  const [localState, updateLocalState] = useState(localStorageItem);
-  function sync(event) {
-    if (event.key === key) {
-      updateLocalState(event.newValue);
-    }
-  }
-  useEffect(() => {
-    window.addEventListener('storage', sync);
-    return () => {
-      window.removeEventListener('storage', sync);
-    };
-  }, []);
-  return JSON.parse(localState);
+  return [JSON.parse(item), setItem];
 }
 
 export default useLocalStorage;

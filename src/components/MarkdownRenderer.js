@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'react-emotion';
+import remark from 'remark';
+import reactRenderer from 'remark-react';
 
 function MarkdownRenderer({ note }) {
-    const [title, changeTitle] = useState(note.title);
-    const [body, changeBody] = useState(note.body);
+    const generateMarkdown = (content) => {
+        return remark().use(reactRenderer).processSync(content).contents;
+    }
 
     return (
         <TextEditorStyled>
-            <TitleEditor
-                value={title}
-                onChange={(e) => changeTitle(e.target.value)}
-            />
-            <BodyEditor
-                value={body}
-                onChange={(e) => changeBody(e.target.value)}
-            />
+            <Title>{note.title}</Title>
+            <Body>
+                {generateMarkdown(note.body)}
+            </Body>
         </TextEditorStyled>
     );
 }
@@ -27,37 +26,53 @@ const TextEditorStyled = styled('div')`
     overflow: hidden;
 `;
 
-const TitleEditor = styled('input')`
-    background-color: ${props => props.theme.colors.bgDark};
-    border: none;
-    border-bottom: 2px solid ${props => props.theme.colors.bgDark};
+const Title = styled('h1')`
     color: ${props => props.theme.colors.text};
     font-family: ${props => props.theme.fonts.family};
     font-size: 1.2rem;
     font-weight: 600;
     margin: 0em 18px .5em;
     padding: 0em 0em .25em;
-
-    &:focus {
-        border-bottom: 2px solid ${props => props.theme.colors.bgLight};
-    }
 `;
 
-const BodyEditor = styled('textarea')`
-    background-color: ${props => props.theme.colors.bgDark};
-    border: none;
-    color: ${props => props.theme.colors.textDark};
-    font-family: ${props => props.theme.fonts.family};
-    font-size: .85rem;
+const Body = styled('div')`
     height: 100%;
     max-height: 80vh;
     width: 100%;
-    resize: none;
     padding: 18px;
     overflow: scroll;
+    background-color: white;
 
-    &:focus {
-        background-color: ${props => props.theme.colors.bg};
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p {
+        color: ${props => props.theme.colors.bg};
+        font-family: ${props => props.theme.fonts.sansFamily};
+    }
+
+    h1 {
+        font-size: 1.5rem;
+        margin: .25em 0em;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+        margin: .25em 0em;
+    }
+
+    p {
+        font-size: .9rem;
+        font-weight: 400;
+        margin: .25em 0em;
+        letter-spacing: .5px;
+    }
+
+    img {
+        width: 100%;
+        margin: .5em 0em;
     }
 `;
 

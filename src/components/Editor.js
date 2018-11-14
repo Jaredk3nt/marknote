@@ -10,20 +10,39 @@ import useLocalStorage from '../hooks/useLocalStorage';
 const tabs = { EDIT: 'edit', VIEW: 'view' }
 
 function Editor({ match }) {
-    const [tab, changeTab] = useState(tabs.EDIT);
-    const notes = useLocalStorage('notes');
+    const [tab, setTab] = useState(tabs.EDIT);
+    const [notes, setNotes] = useLocalStorage('notes');
     const note = (notes.filter(note => note.id === match.params.noteId))[0];
+    const [title, setTitle] = useState(note.title);
+    const [body, setBody] = useState(note.body);
+
+    const save = () => {
+        const newNotes = notes.filter(note => note.id !== match.params.noteId);
+        setNotes([ ...newNotes, { ...note, title, body }]);
+    }
+
+    const changeTab = (tab) => {
+        save();
+        setTab(tab);
+    }
+
     return (
         <EditorStyled>
             <Toolbar>
-                <BackButton />
+                <BackButton callback={save} />
             </Toolbar>
             <Tabs>
                 <button className={tab === tabs.EDIT ? 'active' : ''} onClick={() => changeTab(tabs.EDIT)}>{tabs.EDIT}</button>
                 <button className={tab === tabs.VIEW ? 'active' : ''} onClick={() => changeTab(tabs.VIEW)}>{tabs.VIEW}</button>
             </Tabs>
             {tab === tabs.EDIT ? (
-                <TextEditor note={note} />
+                <TextEditor
+                    title={title}
+                    body={body}
+                    setTitle={setTitle}
+                    setBody={setBody}
+                    save={save}
+                />
             ) : (
                 <MarkdownRenderer note={note} />
             )}
@@ -38,12 +57,13 @@ const EditorStyled = styled('div')`
 
 const Toolbar = styled('header')`
     width: 100%;
-    height: 40px;
+    height: 50px;
 `;
 
 const Tabs = styled('div')`
     display: flex;
     width: 100%;
+    height: 40px;
 
     button {
         background-color: ${props => props.theme.colors.bg};

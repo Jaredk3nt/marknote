@@ -8,7 +8,7 @@ import { PlusButton } from './IconButtons';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function Home({ history }) {
-    const notes = useLocalStorage('notes');
+    const [notes,] = useLocalStorage('notes');
 
     const createNote = () => {
         const id = uuidv4();
@@ -47,10 +47,6 @@ const Toolbar = styled('header')`
     padding: .5em;
     justify-content: flex-end;
     align-items: center;
-
-    button {
-        float: right;
-    }
 `;
 
 export default withRouter(Home);

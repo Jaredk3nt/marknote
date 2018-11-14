@@ -1,25 +1,51 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'react-emotion';
 
-function TextEditor({ note }) {
-    const [title, changeTitle] = useState(note.title);
-    const [body, changeBody] = useState(note.body);
-
+function TextEditor({ title, body, setTitle, setBody, save }) {
     return (
         <TextEditorStyled>
             <TitleEditor
                 value={title}
                 placeholder={title.length ? '' : 'Title'}
-                onChange={(e) => changeTitle(e.target.value)}
+                onChange={(e) => setTitle(e.target.value)}
             />
             <BodyEditor
                 value={body}
                 placeholder={body.length ? '' : 'Start writing your notes here...'}
-                onChange={(e) => changeBody(e.target.value)}
+                onChange={(e) => setBody(e.target.value)}
             />
+            <Toolbar>
+                <button onClick={save}>save note</button>
+            </Toolbar>
         </TextEditorStyled>
     );
 }
+
+const Toolbar = styled('nav')`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background-color: ${props => props.theme.colors.bgDark};
+    padding: .5em;
+
+    button {
+        background: ${props => props.theme.colors.gradient};
+        height: 100%;
+        color: ${props => props.theme.colors.text};
+        font-family: ${props => props.theme.fonts.family};
+        border: none;
+        border-radius: 4px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+`;
 
 const TextEditorStyled = styled('div')`
     display: flex;

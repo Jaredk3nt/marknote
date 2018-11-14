@@ -21,7 +21,8 @@ const theme = {
     gradient: 'radial-gradient(circle farthest-corner at 120% 80%, #63d6d0, transparent), #405def'
   },
   fonts: {
-    family: "'IBM Plex Mono', monospace"
+    family: "'IBM Plex Mono', monospace",
+    sansFamily: "'IBM Plex Sans', sans-serif"
   }
 };
 
@@ -55,10 +56,12 @@ const Body = styled('div')`
 // Global styles
 injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,600');
+  @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600');
 
   body {
     margin: 0;
     padding: 0;
+    background-color: #000;
   }
 
   #root {
