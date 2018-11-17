@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'react-emotion';
+import Swipeable from 'react-swipeable'
+import { withRouter } from 'react-router-dom';
 // Components
 import TextEditor from './TextEditor';
 import MarkdownRenderer from './MarkdownRenderer';
@@ -7,9 +9,10 @@ import { BackButton } from './IconButtons';
 // Hooks
 import useLocalStorage from '../hooks/useLocalStorage';
 
-const tabs = { EDIT: 'edit', VIEW: 'view' }
+const tabs = { EDIT: 'edit', VIEW: 'view' };
+const directions = { RIGHT: 'RIGHT', LEFT: 'LEFT' };
 
-function Editor({ match }) {
+function Editor({ match, history }) {
     const [tab, setTab] = useState(tabs.EDIT);
     const [notes, setNotes] = useLocalStorage('notes');
     const note = (notes.filter(note => note.id === match.params.noteId))[0];
@@ -26,27 +29,50 @@ function Editor({ match }) {
         setTab(tab);
     }
 
+    const goBack = () => {
+        save();
+        history.goBack();
+    }
+
+    const changeTabSwipe = (dir) => {
+        console.log(dir);
+        if (dir === directions.LEFT) {
+            if (tab === tabs.EDIT) return changeTab(tabs.VIEW);
+            return;
+        }
+        if (dir === directions.RIGHT) {
+            if (tab === tabs.VIEW) return changeTab(tabs.EDIT);
+            return goBack();
+        }
+    }
+
     return (
-        <EditorStyled>
-            <Toolbar>
-                <BackButton callback={save} />
-            </Toolbar>
-            <Tabs>
-                <button className={tab === tabs.EDIT ? 'active' : ''} onClick={() => changeTab(tabs.EDIT)}>{tabs.EDIT}</button>
-                <button className={tab === tabs.VIEW ? 'active' : ''} onClick={() => changeTab(tabs.VIEW)}>{tabs.VIEW}</button>
-            </Tabs>
-            {tab === tabs.EDIT ? (
-                <TextEditor
-                    title={title}
-                    body={body}
-                    setTitle={setTitle}
-                    setBody={setBody}
-                    save={save}
-                />
-            ) : (
-                <MarkdownRenderer note={note} />
-            )}
-        </EditorStyled>
+        <Swipeable
+            style={{ height: '100%'}}
+            onSwipedRight={() => changeTabSwipe(directions.RIGHT)}
+            onSwipedLeft={() => changeTabSwipe(directions.LEFT)}
+        >
+            <EditorStyled>
+                <Toolbar>
+                    <BackButton callback={save} />
+                </Toolbar>
+                <Tabs>
+                    <button className={tab === tabs.EDIT ? 'active' : ''} onClick={() => changeTab(tabs.EDIT)}>{tabs.EDIT}</button>
+                    <button className={tab === tabs.VIEW ? 'active' : ''} onClick={() => changeTab(tabs.VIEW)}>{tabs.VIEW}</button>
+                </Tabs>
+                {tab === tabs.EDIT ? (
+                    <TextEditor
+                        title={title}
+                        body={body}
+                        setTitle={setTitle}
+                        setBody={setBody}
+                        save={save}
+                    />
+                ) : (
+                    <MarkdownRenderer note={note} />
+                )}
+            </EditorStyled>
+        </Swipeable>
     )
 }
 
@@ -92,4 +118,4 @@ const Tabs = styled('div')`
     }
 `
 
-export default Editor;
+export default withRouter(Editor);
