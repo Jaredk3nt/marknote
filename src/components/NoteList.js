@@ -6,18 +6,25 @@ import NotePreview from './NotePreview';
 import useLocalStorage from '../hooks/useLocalStorage';
 
 function NoteList() {
-    let [notes,] = useLocalStorage('notes');
-    console.log(notes);
+    let [notes, setNotes] = useLocalStorage('notes');
+
+    function deleteNote(id) {
+        const newNotes = notes.filter(note => note.id !== id);
+        setNotes(newNotes);
+    }
 
     return (
         <NoteListStyled>
             {
-                notes.map(note => (
+                notes.map((note, index) => (
                     <li key={note.id}>
                         <NotePreview
                             id={note.id}
                             title={note.title}
                             body={note.body}
+                            deleteNote={deleteNote}
+                            first={index === 0}
+                            last={index === notes.length - 1}
                         />
                     </li>
                 ))
@@ -34,22 +41,6 @@ const NoteListStyled = styled('ul')`
     padding: 0;
     margin: 0;
     width: 100%;
-
-    li {
-
-        &:first-child {
-            a {
-                border-radius: 4px 4px 0px 0px;
-            }
-        }
-
-        &:last-child {
-            a {
-                border-radius: 0px 0px 4px 4px;
-                border-bottom: none;
-            }
-        }
-    }
 
     h2 {
         color: ${props => props.theme.colors.bgLight};

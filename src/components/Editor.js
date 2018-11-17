@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'react-emotion';
-import Swipeable from 'react-swipeable'
+import Swipeable from 'react-swipeable';
 import { withRouter } from 'react-router-dom';
 // Components
 import TextEditor from './TextEditor';
@@ -35,7 +35,6 @@ function Editor({ match, history }) {
     }
 
     const changeTabSwipe = (dir) => {
-        console.log(dir);
         if (dir === directions.LEFT) {
             if (tab === tabs.EDIT) return changeTab(tabs.VIEW);
             return;
@@ -61,17 +60,17 @@ function Editor({ match, history }) {
                     <button className={tab === tabs.EDIT ? 'active' : ''} onClick={() => changeTab(tabs.EDIT)}>{tabs.EDIT}</button>
                     <button className={tab === tabs.VIEW ? 'active' : ''} onClick={() => changeTab(tabs.VIEW)}>{tabs.VIEW}</button>
                 </Tabs>
-                {tab === tabs.EDIT ? (
-                    <TextEditor
+                {
+                    (tab === tabs.EDIT)
+                    ? <TextEditor
                         title={title}
                         body={body}
                         setTitle={setTitle}
                         setBody={setBody}
                         save={save}
                     />
-                ) : (
-                    <MarkdownRenderer note={note} />
-                )}
+                    : <MarkdownRenderer note={note} />
+                }
             </EditorStyled>
         </Swipeable>
     )
