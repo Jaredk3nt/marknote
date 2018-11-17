@@ -49,6 +49,7 @@ function Editor({ match, history }) {
     return (
         <Swipeable
             style={{ height: '100%'}}
+            delta={40}
             onSwipedRight={() => changeTabSwipe(directions.RIGHT)}
             onSwipedLeft={() => changeTabSwipe(directions.LEFT)}
         >

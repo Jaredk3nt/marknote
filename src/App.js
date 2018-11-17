@@ -16,7 +16,7 @@ const theme = {
     blue: '#7299f9',
     teal: '#63d6d0',
     text: '#fff',
-    textDark: '#587d93',
+    textDark: '#738dab',
     textDarker: '#4f7084',
     gradient: 'radial-gradient(circle farthest-corner at 120% 80%, #63d6d0, transparent), #405def'
   },
