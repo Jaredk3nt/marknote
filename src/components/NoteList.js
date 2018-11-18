@@ -19,9 +19,7 @@ function NoteList() {
                 notes.map((note, index) => (
                     <li key={note.id}>
                         <NotePreview
-                            id={note.id}
-                            title={note.title}
-                            body={note.body}
+                            note={note}
                             deleteNote={deleteNote}
                             first={index === 0}
                             last={index === notes.length - 1}

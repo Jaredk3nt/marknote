@@ -15,7 +15,8 @@ function Home({ history }) {
         const newNotes = [...notes, {
             id,
             title: '',
-            body: ''
+            body: '',
+            lastUpdated: new Date().getTime()
         }];
         localStorage.setItem('notes', JSON.stringify(newNotes));
         history.push(`/notes/${id}`);

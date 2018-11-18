@@ -21,7 +21,12 @@ function Editor({ match, history }) {
 
     const save = () => {
         const newNotes = notes.filter(note => note.id !== match.params.noteId);
-        setNotes([ ...newNotes, { ...note, title, body }]);
+        setNotes([ ...newNotes, {
+            ...note,
+            title,
+            body,
+            lastUpdated: new Date().getTime()
+        }]);
     }
 
     const changeTab = (tab) => {

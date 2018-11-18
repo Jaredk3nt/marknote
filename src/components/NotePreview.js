@@ -3,23 +3,27 @@ import styled from 'react-emotion';
 import { withRouter } from "react-router-dom";
 import Swipeable from 'react-swipeable';
 
-function NotePreview({ title, body, id, deleteNote, history, ...rest }) {
+function NotePreview({ note, deleteNote, history, ...rest }) {
     const [deleteOpen, setDelete] = useState(false);
+    const date = new Date(note.lastUpdated);
     return (
         <Swipeable
             onSwipedRight={() => setDelete(true)}
             onSwipedLeft={() => setDelete(false)}
         >
             <NoteStyled
-                onClick={() => history.push(`/notes/${id}`)}
+                onClick={() => history.push(`/notes/${note.id}`)}
                 deleteOpen={deleteOpen}
                 {...rest}
             >
                 { deleteOpen && (
-                    <button onClick={() => deleteNote(id)}>x</button>
+                    <button onClick={() => deleteNote(note.id)}>x</button>
                 )}
-                <h1>{title}</h1>
-                <p>{body}</p>
+                <div className='title'>
+                    <h1>{note.title}</h1>
+                    <h2>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</h2>
+                </div>
+                <p>{note.body}</p>
             </NoteStyled>
         </Swipeable>
     )
@@ -42,6 +46,10 @@ const NoteStyled = styled('div')`
     text-decoration: none;
     text-align: left;
 
+    &:hover {
+        cursor: pointer;
+    }
+
     button {
         background-color: red;
         border: none;
@@ -60,13 +68,34 @@ const NoteStyled = styled('div')`
         color: ${p => p.theme.colors.text};
     }
 
+    .title {
+        margin-bottom: .25em;
+        width: 100%;
+    }
+
     h1 {
+        display: inline-block;
         font-family: ${props => props.theme.fonts.family};
         font-weight: 600;
         color: white;
         font-size: 1rem;
         letter-spacing: 1px;
-        margin: 0em 0em .25em 0em;
+        margin: 0em;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    h2 {
+        display: inline-block;
+        color: ${p => p.theme.colors.textDarker};
+        font-family: ${props => props.theme.fonts.family};
+        font-weight: 400;
+        font-size: .7rem;
+        letter-spacing: 1px;
+        text-align: left;
+        margin: 0em;
     }
 
     p {
@@ -75,7 +104,8 @@ const NoteStyled = styled('div')`
         color: ${props => props.theme.colors.textDark};
         font-size: .8rem;
         margin: 0;
-        max-height: 34px;
+        max-height: 1rem;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
