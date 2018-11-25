@@ -13,10 +13,16 @@ function NoteList() {
         setNotes(newNotes);
     }
 
+    function sortedNotes() {
+        return notes.sort((a, b) => {
+            return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+        })
+    }
+
     return (
         <NoteListStyled>
             {
-                notes.map((note, index) => (
+                sortedNotes().map((note, index) => (
                     <li key={note.id}>
                         <NotePreview
                             note={note}

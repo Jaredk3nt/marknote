@@ -15,7 +15,12 @@ const directions = { RIGHT: 'RIGHT', LEFT: 'LEFT' };
 function Editor({ match, history }) {
     const [tab, setTab] = useState(tabs.EDIT);
     const [notes, setNotes] = useLocalStorage('notes');
-    const note = (notes.filter(note => note.id === match.params.noteId))[0];
+    const filter = (notes.filter(note => note.id === match.params.noteId));
+    if (!filter.length) {
+        history.push('/');
+        return null;
+    }
+    const note = filter[0];
     const [title, setTitle] = useState(note.title);
     const [body, setBody] = useState(note.body);
 

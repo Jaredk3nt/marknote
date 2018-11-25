@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'react-emotion';
 import { withRouter } from "react-router-dom";
 import Swipeable from 'react-swipeable';
+import { DeleteButton } from './IconButtons';
 
 function NotePreview({ note, deleteNote, history, ...rest }) {
     const [deleteOpen, setDelete] = useState(false);
@@ -17,7 +18,10 @@ function NotePreview({ note, deleteNote, history, ...rest }) {
                 {...rest}
             >
                 { deleteOpen && (
-                    <button onClick={() => deleteNote(note.id)}>x</button>
+                    <DeleteButton onClick={(e) => {
+                        deleteNote(note.id);
+                        e.stopPropagation();
+                    }} />
                 )}
                 <div className='title'>
                     <h1>{note.title}</h1>
@@ -71,10 +75,11 @@ const NoteStyled = styled('div')`
     .title {
         margin-bottom: .25em;
         width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 75px;
     }
 
     h1 {
-        display: inline-block;
         font-family: ${props => props.theme.fonts.family};
         font-weight: 600;
         color: white;
@@ -85,16 +90,16 @@ const NoteStyled = styled('div')`
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        padding-left: 5px;
     }
 
     h2 {
-        display: inline-block;
         color: ${p => p.theme.colors.textDarker};
         font-family: ${props => props.theme.fonts.family};
         font-weight: 400;
-        font-size: .7rem;
+        font-size: .65rem;
         letter-spacing: 1px;
-        text-align: left;
+        text-align: right;
         margin: 0em;
     }
 
@@ -104,7 +109,6 @@ const NoteStyled = styled('div')`
         color: ${props => props.theme.colors.textDark};
         font-size: .8rem;
         margin: 0;
-        max-height: 1rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
