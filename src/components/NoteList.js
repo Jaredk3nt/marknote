@@ -15,7 +15,9 @@ function NoteList() {
 
     function sortedNotes() {
         return notes.sort((a, b) => {
-            return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+            const ad = new Date(a.lastUpdated) || new Date();
+            const bd = new Date(b.lastUpdated) || new Date();
+            return bd - ad;
         })
     }
 

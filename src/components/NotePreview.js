@@ -25,7 +25,7 @@ function NotePreview({ note, deleteNote, history, ...rest }) {
                 )}
                 <div className='title'>
                     <h1>{note.title}</h1>
-                    <h2>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</h2>
+                    <h2>{`${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`}</h2>
                 </div>
                 <p>{note.body}</p>
             </NoteStyled>
