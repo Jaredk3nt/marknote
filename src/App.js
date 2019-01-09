@@ -12,7 +12,7 @@ const theme = {
     bg: '#121212',
     bgDark: '#000',
     bgLight: '#272727',
-    yellow: '#fdc75c',
+    grey: '#bfbfbf',
     blue: '#7299f9',
     teal: '#63d6d0',
     text: '#fff',

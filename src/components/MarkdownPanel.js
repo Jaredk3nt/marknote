@@ -1,18 +1,14 @@
 import React from 'react';
 import styled from 'react-emotion';
-import remark from 'remark';
-import reactRenderer from 'remark-react';
 
-function MarkdownRenderer({ note }) {
-    const generateMarkdown = (content) => {
-        return remark().use(reactRenderer).processSync(content).contents;
-    }
+import MarkdownRenderer from './markdownRenderer';
 
+function MarkdownPanel({ note }) {
     return (
         <TextEditorStyled>
             <Title>{note.title}</Title>
             <Body>
-                {generateMarkdown(note.body)}
+                <MarkdownRenderer src={note.body} />
             </Body>
         </TextEditorStyled>
     );
@@ -53,7 +49,9 @@ const Body = styled('div')`
     h4,
     h5,
     p,
-    li {
+    li,
+    td,
+    th {
         color: ${props => props.theme.colors.bg};
         font-family: ${props => props.theme.fonts.sansFamily};
     }
@@ -119,6 +117,24 @@ const Body = styled('div')`
         padding: 2px 4px;
         border-radius: 4px;
     }
+
+    table {
+        width: 100%;
+        font-size: .9rem;
+        font-weight: 400;
+        margin: 1em 0em;
+        letter-spacing: .5px;
+        line-height: 1.4;
+        border-collapse: collapse;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+
+        th, td {
+            border: 1px solid ${p => p.theme.colors.grey};
+            padding: .75em;
+        }
+    }
 `;
 
-export default MarkdownRenderer;
+export default MarkdownPanel;

@@ -4,7 +4,7 @@ import Swipeable from 'react-swipeable';
 import { withRouter } from 'react-router-dom';
 // Components
 import TextEditor from './TextEditor';
-import MarkdownRenderer from './MarkdownRenderer';
+import MarkdownPanel from './MarkdownPanel';
 import { BackButton } from './IconButtons';
 // Hooks
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -79,7 +79,7 @@ function Editor({ match, history }) {
                         setBody={setBody}
                         save={save}
                     />
-                    : <MarkdownRenderer note={note} />
+                    : <MarkdownPanel note={note} />
                 }
             </EditorStyled>
         </Swipeable>
